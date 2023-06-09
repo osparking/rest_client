@@ -1,9 +1,11 @@
 package space.bumtiger.rest;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import space.bumtiger.domain.Ingredient;
 
@@ -13,8 +15,9 @@ public class HamburgerClient {
 	public Ingredient getIngredientById(String ingredientId) {
 		Map<String, String> urlVariables = new HashMap<>();
 		urlVariables.put("id", ingredientId);
-		return rest.getForObject(
-				"http://localhost:8080/data-api/ingredients/{id}",
-				Ingredient.class, urlVariables);
+		URI url = UriComponentsBuilder
+				.fromHttpUrl("http://localhost:8080/data-api/ingredients/{id}")
+				.build(urlVariables);
+		return rest.getForObject(url, Ingredient.class);
 	}
 }
