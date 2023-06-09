@@ -20,4 +20,9 @@ public class HamburgerClient {
 				.build(urlVariables);
 		return rest.getForObject(url, Ingredient.class);
 	}
+
+	public static void main(String... args) {
+		HamburgerClient instance = new HamburgerClient();
+		System.out.println(instance.getIngredientById("BNBD"));
+	}
 }
