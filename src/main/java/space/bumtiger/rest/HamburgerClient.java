@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
 import space.bumtiger.domain.Ingredient;
+import space.bumtiger.domain.Ingredient.Type;
 
 
 @Slf4j
@@ -26,9 +27,16 @@ public class HamburgerClient {
 		log.info("채취 시각: {}", strNowDate);
 		return responseEntity.getBody();
 	}
+	
+	public void updateIngredient(Ingredient ingredient) {
+		rest.put("http://localhost:8080/data-api/ingredients/{id}",
+				ingredient, ingredient.getId());
+	}
 
 	public static void main(String... args) {
 		HamburgerClient instance = new HamburgerClient();
-		System.out.println(instance.getIngredientById("BNBD"));
+		Ingredient ingredient = 
+				new Ingredient("BNBD", "버거번", Type.BREAD);
+		instance.updateIngredient(ingredient);
 	}
 }
