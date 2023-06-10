@@ -32,11 +32,16 @@ public class HamburgerClient {
 		rest.put("http://localhost:8080/data-api/ingredients/{id}",
 				ingredient, ingredient.getId());
 	}
+	
+	public void deleteIngredient(Ingredient ingredient) {
+		rest.delete("http://localhost:8080/data-api/ingredients/{id}",
+				ingredient.getId());
+	}
 
 	public static void main(String... args) {
 		HamburgerClient instance = new HamburgerClient();
 		Ingredient ingredient = 
-				new Ingredient("BNBD", "버거번", Type.BREAD);
-		instance.updateIngredient(ingredient);
+				new Ingredient("SHMP", "새우", Type.PROTEIN);
+		instance.deleteIngredient(ingredient);
 	}
 }
