@@ -40,10 +40,13 @@ public class HamburgerClient {
 				ingredient.getId());
 	}
 	
-	public java.net.URI postIngredient(Ingredient ingredient) {
-		return rest.postForLocation(
-				"http://localhost:8080/data-api/ingredients",
-				ingredient);
+	public Ingredient postIngredient(Ingredient ingredient) {
+		ResponseEntity<Ingredient> reEntity = 
+				rest.postForEntity(
+						"http://localhost:8080/data-api/ingredients",
+						ingredient, Ingredient.class);
+		log.info("새 재료 URI: {}", reEntity.getHeaders().getLocation());
+		return reEntity.getBody();
 	}
 
 	public static void main(String... args) 
