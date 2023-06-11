@@ -2,16 +2,10 @@ package space.bumtiger.rest;
 
 import java.text.SimpleDateFormat;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import lombok.extern.slf4j.Slf4j;
 import space.bumtiger.domain.Ingredient;
@@ -46,10 +40,10 @@ public class HamburgerClient {
 				ingredient.getId());
 	}
 	
-	public Ingredient postIngredient(Ingredient ingredient) {
-		return rest.postForObject(
+	public java.net.URI postIngredient(Ingredient ingredient) {
+		return rest.postForLocation(
 				"http://localhost:8080/data-api/ingredients",
-				ingredient, Ingredient.class);
+				ingredient);
 	}
 
 	public static void main(String... args) 
