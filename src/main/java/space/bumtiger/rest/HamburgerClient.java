@@ -46,27 +46,17 @@ public class HamburgerClient {
 				ingredient.getId());
 	}
 	
-	public Ingredient postIngredient(Ingredient ingredient) 
-			throws JsonProcessingException {
-		var headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    
-    ObjectWriter ow = 
-    		new ObjectMapper().writer().withDefaultPrettyPrinter();
-    String ingreJsonStr = ow.writeValueAsString(ingredient);
-    
-    HttpEntity<String> request = 
-        new HttpEntity<String>(ingreJsonStr, headers);    
+	public Ingredient postIngredient(Ingredient ingredient) {
 		return rest.postForObject(
 				"http://localhost:8080/data-api/ingredients",
-				request, Ingredient.class);
+				ingredient, Ingredient.class);
 	}
 
 	public static void main(String... args) 
 			throws JsonProcessingException {
 		HamburgerClient instance = new HamburgerClient();
 		Ingredient ingredient = 
-				new Ingredient("DDSH", "독도새우", Type.PROTEIN);
+				new Ingredient("DDSH", null, "독도새우", Type.PROTEIN);
 		log.info(instance.postIngredient(ingredient).toString());
 	}
 }
