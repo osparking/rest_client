@@ -2,8 +2,16 @@ package space.bumtiger.rest;
 
 import java.text.SimpleDateFormat;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import lombok.extern.slf4j.Slf4j;
 import space.bumtiger.domain.Ingredient;
@@ -38,13 +46,24 @@ public class HamburgerClient {
 				ingredient.getId());
 	}
 	
-	public Ingredient postIngredient(Ingredient ingredient) {
+	public Ingredient postIngredient(Ingredient ingredient) 
+			throws JsonProcessingException {
+		var headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+    
+    ObjectWriter ow = 
+    		new ObjectMapper().writer().withDefaultPrettyPrinter();
+    String ingreJsonStr = ow.writeValueAsString(ingredient);
+    
+    HttpEntity<String> request = 
+        new HttpEntity<String>(ingreJsonStr, headers);    
 		return rest.postForObject(
 				"http://localhost:8080/data-api/ingredients",
-				ingredient, Ingredient.class);
+				request, Ingredient.class);
 	}
 
-	public static void main(String... args) {
+	public static void main(String... args) 
+			throws JsonProcessingException {
 		HamburgerClient instance = new HamburgerClient();
 		Ingredient ingredient = 
 				new Ingredient("DDSH", "독도새우", Type.PROTEIN);
