@@ -37,11 +37,17 @@ public class HamburgerClient {
 		rest.delete("http://localhost:8080/data-api/ingredients/{id}",
 				ingredient.getId());
 	}
+	
+	public Ingredient postIngredient(Ingredient ingredient) {
+		return rest.postForObject(
+				"http://localhost:8080/data-api/ingredients",
+				ingredient, Ingredient.class);
+	}
 
 	public static void main(String... args) {
 		HamburgerClient instance = new HamburgerClient();
 		Ingredient ingredient = 
-				new Ingredient("SHMP", "새우", Type.PROTEIN);
-		instance.deleteIngredient(ingredient);
+				new Ingredient("DDSH", "독도새우", Type.PROTEIN);
+		log.info(instance.postIngredient(ingredient).toString());
 	}
 }
